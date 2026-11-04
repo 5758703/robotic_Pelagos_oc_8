@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .tools/
+docs/
 *.log
 *.blend1
 *.tmp
