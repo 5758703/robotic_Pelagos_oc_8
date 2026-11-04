@@ -1,45 +1,107 @@
 # Pelagos OC-8
 
-Vue + Vite + Three.js 机械八爪鱼数字孪生展示。所有物理参数均为 **my guess / 设计估算**，没有真实设备遥测接入。
+**English** | [中文](README.zh-CN.md)
 
-## 运行
+[![GitHub stars](https://img.shields.io/github/stars/5758703/robotic_Pelagos_oc_8?style=social)](https://github.com/5758703/robotic_Pelagos_oc_8/stargazers)
+[![License](https://img.shields.io/github/license/5758703/robotic_Pelagos_oc_8)](LICENSE)
+[![Vue](https://img.shields.io/badge/Vue-3.5-42b883?logo=vue.js&logoColor=white)](https://vuejs.org/)
+[![Three.js](https://img.shields.io/badge/Three.js-0.180-000000?logo=threedotjs&logoColor=white)](https://threejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+
+Interactive digital twin of an eight-arm robotic octopus — Vue + Vite + Three.js.  
+All physical parameters are **design estimates / my guess**; there is no live telemetry from a real vehicle.
+
+<p align="center">
+  <img src="artifacts/film/frame-0.jpg" alt="Pelagos OC-8 film frame 0" width="860" />
+</p>
+
+---
+
+## Demo film
+
+40-second scored console tour · 1600×900 · 30 FPS · mastered to ≈ −14 LUFS.
+
+### Scored film (with audio)
+
+<video src="artifacts/film/Pelagos_OC8_scored.mp4" controls width="860" poster="artifacts/film/frame-0.jpg">
+  Your browser does not support embedded video.
+  <a href="artifacts/film/Pelagos_OC8_scored.mp4">Download Pelagos_OC8_scored.mp4</a>
+</video>
+
+[▶ Open scored MP4](artifacts/film/Pelagos_OC8_scored.mp4) · [Silent tour MP4](artifacts/film/tour-silent.mp4)
+
+### Key frames
+
+| t ≈ 0 s | t ≈ 9 s | t ≈ 13 s |
+|:---:|:---:|:---:|
+| ![frame-0](artifacts/film/frame-0.jpg) | ![frame-270](artifacts/film/frame-270.jpg) | ![frame-390](artifacts/film/frame-390.jpg) |
+
+| t ≈ 24 s | t ≈ 37 s |
+|:---:|:---:|
+| ![frame-720](artifacts/film/frame-720.jpg) | ![frame-1110](artifacts/film/frame-1110.jpg) |
+
+Measured delivery (decoded AAC): **−14.01 LUFS** integrated, **−1.30 dBTP** true peak · 1,200 frames · see [`artifacts/film/loudness-report.json`](artifacts/film/loudness-report.json).
+
+---
+
+## Features
+
+- Single pure-function physics source (`stateAt` / `armPoints`) shared by 3D, telemetry, pressure history and schematic
+- Live water-current slider (0–3 m/s) with feed-forward station-holding estimates
+- Optional procedural ambient score (Enable sound)
+- Auto tour that clicks real UI; user input takes over, idle resumes after 25 s
+- Subsystem isolate / section / solo / service-expand modes
+- Studio / Balanced / Integrated GPU quality tiers
+- Matching Blender source driven by the same assembly export
+
+---
+
+## Quick start
 
 ```powershell
 npm install --cache .tools/npm-cache
 npm run dev -- --port 5173
 ```
 
-浏览器打开 http://127.0.0.1:5173/ 。`npm run build` 输出静态站点至 `dist/`。
+Open http://127.0.0.1:5173/ · `npm run build` writes static output to `dist/`.
 
-## 使用
+### Controls
 
-- 拖动模型旋转，滚轮缩放，H 隐藏面板，空格播放/暂停。
-- 拖动底部相位滑块检查任意姿态，滑块会暂停物理循环。
-- 选择子系统，再选隔离、剖切、单独或展开；完整装配恢复所有部件。
-- 自动导览的光标点击真实按钮；真实输入立即接管，静置 25 秒恢复导览。
-- Studio / Balanced / Integrated GPU 三档切换像素比、阴影尺寸和面板刷新频率。全档不使用 AO。
-- 检修展开是展示变换，不代表真实设备可开壳运行。
+| Input | Action |
+| --- | --- |
+| Drag | Orbit |
+| Scroll | Zoom |
+| `H` | Hide / show panel |
+| Space | Play / pause |
+| Phase slider | Scrub pose (pauses physics loop) |
+| Current slider | 0–3 m/s fluid load |
+| Enable sound | Opt-in live procedural score |
 
-## 单一物理模型
+---
 
-`src/model.js` 的 `stateAt(phase, current)` 为全部物理读数的唯一来源，`armPoints(index, phase, current)` 生成每个关节位置。压力历史重新采样同一个函数，没有独立图表动画。
+## Physics model
 
-`src/parameters.json` 保存 SI 参数及来源声明。周期 2.4 s、排量 1.2 L、喷口直径 18 mm、密度 1000 kg/m³、Cd=0.8 均为估算。
+`src/model.js` → `stateAt(phase, current)` is the sole source of physical readings; `armPoints(index, phase, current)` builds joint positions. Pressure history resamples the same function — no independent chart animation.
 
-在 p=0.25：Q≈1.571 L/s，v≈6.173 m/s，P≈29.77 kPa，F≈9.696 N。后半周期补水，喷射推力为零。半周期流量积分为 1.2 L。
+`src/parameters.json` stores SI values and provenance. Baseline estimates: period 2.4 s, stroke volume 1.2 L, nozzle Ø 18 mm, ρ = 1000 kg/m³, Cd = 0.8.
 
-`machine.js` 保存可编辑装配结构，`batching.js` 仅建立 GPU 实例化绘制副本。所有变换仍来自原始结构，不改变物理模型。
+At phase `p = 0.25` (zero current): Q ≈ 1.571 L/s, v ≈ 6.173 m/s, P ≈ 29.77 kPa, F ≈ 9.696 N. Intake half-cycle produces zero jet thrust. Half-cycle volume integral is 1.2 L.
 
-## Blender 源文件
+Current drag uses D = ½ρCdAu² (A = 0.008 m², Cd = 0.5 — estimates). At 3 m/s: D ≈ 18 N, peak jet ≈ 81.7 N, pulse ≈ 0.756 Hz. Details: [`docs/current-and-score.md`](docs/current-and-score.md).
 
-打开 `blender/Pelagos_OC8.blend`。选中根对象 `Pelagos_OC8`：
+`machine.js` holds the editable assembly; `batching.js` only builds GPU instancing copies. Transforms still come from the original structure.
 
-- `jet_phase` 是唯一物理输入；时间线第 1–145 帧以 60 FPS 对应一个周期。
-- `service_open` 为检修展开量，不参与喷射物理计算。
-- 原生短表达式驱动器连接机械臂、外套膜、泵芯、镜头及阀门；不依赖自动执行外部 Python。
-- 文件包含可编辑几何、材料、装配层级、摄影棚灯光、相机和来源说明。
+---
 
-重新生成（本项目 `.tools` 中已准备便携 Blender）：
+## Blender source
+
+Open `blender/Pelagos_OC8.blend`. Select root `Pelagos_OC8`:
+
+- `jet_phase` — sole physics input; frames 1–145 @ 60 FPS = one cycle
+- `service_open` — service expand amount (not jet physics)
+- Native short-expression drivers for arms, mantle, pump, camera and valves — no auto-exec external Python required
+
+Regenerate (portable Blender under `.tools`):
 
 ```powershell
 npm run export:blender
@@ -47,9 +109,33 @@ npm run export:blender
 & '.\.tools\blender-4.5.3-windows-x64\blender.exe' --background blender/Pelagos_OC8.blend --python blender/validate_scene.py
 ```
 
-Blender 使用从网页装配导出的 `scene-data.json`，无需另行手工建模。官方运行包来源：[Blender 下载目录](https://download.blender.org/release/Blender4.5/)。
+Official binaries: [Blender 4.5 release folder](https://download.blender.org/release/Blender4.5/).
 
-## 检查
+---
+
+## Film & audio pipeline
+
+With the Vite server running:
+
+```powershell
+node scripts/render-film.mjs
+node scripts/render-score.mjs
+python scripts/master-film.py
+```
+
+| Artifact | Role |
+| --- | --- |
+| `artifacts/film/tour-silent.mp4` | Silent deterministic tour |
+| `artifacts/film/Pelagos_OC8_scored.mp4` | Final muxed film (AAC) |
+| `artifacts/film/frame-*.jpg` | Sampled key frames |
+| `artifacts/film/timeline.json` | Button / jet event trace |
+| `artifacts/film/loudness-report.json` | Loudnorm measurement |
+
+Target: −14 LUFS integrated, true-peak ceiling −1.5 dBTP (acceptance &lt; −1 dBTP after decode).
+
+---
+
+## Verification
 
 ```powershell
 npm test
@@ -58,24 +144,42 @@ node scripts/review-regressions.mjs
 python scripts/contact-sheet.py
 ```
 
-浏览器检查使用本机 Chrome；运行前保留 Vite 服务。QA 会保存八个导览节点、过渡 0.2 s 采样、移动版截图、交互结果与实际 GPU 帧耗时。
+Browser QA uses local Chrome with Vite running. See [`docs/verification.md`](docs/verification.md), [`artifacts/qa-results.json`](artifacts/qa-results.json), [`artifacts/blender-validation.json`](artifacts/blender-validation.json).
 
-见 `docs/verification.md`、`artifacts/qa-results.json`、`artifacts/blender-validation.json`。`artifacts/tour-contact-sheet.jpg` 为导览静帧总览。
+Collision sweep covers 40 phases at 0 / 0.3 / 1.5 / 3 m/s. Full suite: **15** passing tests.
 
-## 文件组织
+---
 
-- `src/App.vue`：控制台与接管/导览生命周期。
-- `src/viewer.js`：镜头、预热、剖切、轨道控制、质量档。
-- `src/model.js` / `parameters.json`：纯函数与参数。
-- `src/machine.js` / `batching.js`：机械装配与高效绘制。
-- `src/tour.js`：导览节点。
-- `blender/`：源文件、导出数据和生成/验证脚本。
-- `tests/`：守恒、关节、碰撞代理、模式可见性测试。
+## Repository layout
 
-## 验证范围
+```
+src/          App.vue, viewer, model, machine, batching, tour, score, film
+blender/      Source .blend, build / validate scripts
+scripts/      Film render, score, QA, Blender export
+tests/        Conservation, joints, collision, current, score
+artifacts/    QA outputs and film delivery
+docs/         Verification & current/score notes
+```
 
-这是可交互的机构研究模型，并非经 CFD、结构计算或水下实验校准的工程数字孪生。碰撞检查针对采样相位、关节连接和机械臂保守包络，不能视为全部零件的制造公差认证。
+---
 
-## Water current and sound
-The fluid panel now includes a live 0–3 m/s current slider. Use Enable sound for the procedural live score. See [current and scored-tour documentation](docs/current-and-score.md) for model assumptions, export commands and measured mastering results.
+## Scope & disclaimer
 
+This is an interactive mechanism study, **not** a CFD-, FEA-, or tank-calibrated engineering twin. Collision checks sample phases, joint links and conservative arm envelopes — not manufacturing tolerance certification. Service expand is a presentation transform, not a claim that the hardware can run open-shell.
+
+---
+
+## Star history
+
+[![Star History Chart](https://api.star-history.com/svg?repos=5758703/robotic_Pelagos_oc_8&type=Date)](https://www.star-history.com/#5758703/robotic_Pelagos_oc_8&Date)
+
+[![Stargazers over time](https://starchart.cc/5758703/robotic_Pelagos_oc_8.svg?variant=adaptive)](https://starchart.cc/5758703/robotic_Pelagos_oc_8)
+
+---
+
+## Links
+
+- Repo: https://github.com/5758703/robotic_Pelagos_oc_8
+- [中文说明](README.zh-CN.md)
+- [Current & scored tour](docs/current-and-score.md)
+- [Verification](docs/verification.md)
