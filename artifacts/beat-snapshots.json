@@ -1,0 +1,109 @@
+{
+  "snapshots": [
+    {
+      "phase": 0.25,
+      "mode": "assembled",
+      "subsystem": "all",
+      "view": "hero",
+      "auto": false,
+      "playing": false,
+      "fps": 22,
+      "drawCalls": 192,
+      "triangles": 927682,
+      "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x0000191B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "quality": "eco"
+    },
+    {
+      "phase": 0.25,
+      "mode": "assembled",
+      "subsystem": "siphon",
+      "view": "front",
+      "auto": false,
+      "playing": false,
+      "fps": 28,
+      "drawCalls": 192,
+      "triangles": 927682,
+      "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x0000191B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "quality": "eco"
+    },
+    {
+      "phase": 0.25,
+      "mode": "exploded",
+      "subsystem": "mantle",
+      "view": "hero",
+      "auto": false,
+      "playing": false,
+      "fps": 26,
+      "drawCalls": 192,
+      "triangles": 927682,
+      "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x0000191B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "quality": "eco"
+    },
+    {
+      "phase": 0.25,
+      "mode": "solo",
+      "subsystem": "optics",
+      "view": "front",
+      "auto": false,
+      "playing": false,
+      "fps": 29,
+      "drawCalls": 5,
+      "triangles": 4048,
+      "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x0000191B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "quality": "eco"
+    },
+    {
+      "phase": 0.25,
+      "mode": "solo",
+      "subsystem": "arm2",
+      "view": "top",
+      "auto": false,
+      "playing": false,
+      "fps": 60,
+      "drawCalls": 61,
+      "triangles": 50552,
+      "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x0000191B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "quality": "eco"
+    },
+    {
+      "phase": 0.25,
+      "mode": "cut",
+      "subsystem": "siphon",
+      "view": "side",
+      "auto": false,
+      "playing": false,
+      "fps": 33,
+      "drawCalls": 192,
+      "triangles": 927682,
+      "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x0000191B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "quality": "eco"
+    },
+    {
+      "phase": 0.25,
+      "mode": "assembled",
+      "subsystem": "beak",
+      "view": "underside",
+      "auto": false,
+      "playing": false,
+      "fps": 24,
+      "drawCalls": 191,
+      "triangles": 927680,
+      "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x0000191B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "quality": "eco"
+    },
+    {
+      "phase": 0.25,
+      "mode": "assembled",
+      "subsystem": "all",
+      "view": "hero",
+      "auto": false,
+      "playing": false,
+      "fps": 24,
+      "drawCalls": 192,
+      "triangles": 927682,
+      "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x0000191B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "quality": "eco"
+    }
+  ],
+  "errors": []
+}

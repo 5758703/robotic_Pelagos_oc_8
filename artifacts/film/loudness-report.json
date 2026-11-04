@@ -1,0 +1,45 @@
+{
+  "targets": {
+    "integratedLUFS": -14,
+    "truePeakBelowDBTP": -1
+  },
+  "premaster": {
+    "input_i": "-33.55",
+    "input_tp": "-18.71",
+    "input_lra": "2.20",
+    "input_thresh": "-43.71",
+    "output_i": "-13.74",
+    "output_tp": "-1.50",
+    "output_lra": "1.50",
+    "output_thresh": "-23.83",
+    "normalization_type": "dynamic",
+    "target_offset": "-0.26"
+  },
+  "masterPCM": {
+    "input_i": "-13.98",
+    "input_tp": "-1.34",
+    "input_lra": "2.20",
+    "input_thresh": "-24.13",
+    "output_i": "-14.20",
+    "output_tp": "-1.50",
+    "output_lra": "1.50",
+    "output_thresh": "-24.29",
+    "normalization_type": "dynamic",
+    "target_offset": "0.20"
+  },
+  "finalDecodedAAC": {
+    "input_i": "-14.01",
+    "input_tp": "-1.30",
+    "input_lra": "2.20",
+    "input_thresh": "-24.16",
+    "output_i": "-14.20",
+    "output_tp": "-1.53",
+    "output_lra": "1.50",
+    "output_thresh": "-24.29",
+    "normalization_type": "dynamic",
+    "target_offset": "0.20"
+  },
+  "postCodecTrimDB": 0.11999999999999922,
+  "method": "FFmpeg loudnorm, measured two-pass; decoded final MP4 measured again",
+  "source": "https://ffmpeg.org/ffmpeg-filters.html#loudnorm"
+}

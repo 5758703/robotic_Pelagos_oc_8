@@ -1,0 +1,54 @@
+import {chromium} from 'playwright';
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+await fs.mkdir('artifacts/transitions',{recursive:true});
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--enable-webgl','--ignore-gpu-blocklist']});
+const page=await browser.newPage({viewport:{width:1600,height:900},deviceScaleFactor:1});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:5173/');await page.waitForFunction(()=>window.oc8,{timeout:120000});
+const checks=[],transitions=[];
+const check=(name,result)=>{assert.ok(result,name);checks.push({name,result});};
+await page.evaluate(()=>oc8.inspect(.25,0));
+check('hand calculation displayed',await page.getByTestId('thrust').textContent()==='9.70');
+for(let i=0;i<8;i++){
+ await page.evaluate(b=>oc8.inspect(.25,b),i);
+ await page.waitForTimeout(100);
+ await page.screenshot({path:`artifacts/beat-${String(i).padStart(2,'0')}.png`});
+ await page.evaluate(b=>oc8.transitionStart(b),(i+1)%8);
+ let lastCamera;
+ for(let k=0;k<=6;k++){
+  const t=k*.2;
+  const sampled=await page.evaluate(t=>oc8.transitionSample(t),t);
+  if(lastCamera)check(`transition ${i} sample ${t.toFixed(1)} finite`,sampled.camera.every(Number.isFinite));
+  lastCamera=sampled.camera;
+  transitions.push({from:i,to:(i+1)%8,time:t,...sampled});
+  await page.screenshot({path:`artifacts/transitions/${i}-${k}.png`});
+ }
+}
+await page.evaluate(()=>oc8.inspect(.75,0));check('refill thrust zero',await page.getByTestId('thrust').textContent()==='0.00');
+await page.locator('#sub-optics').click();await page.locator('#mode-isolate').click();
+check('isolation control',await page.evaluate(()=>oc8.snapshot().mode==='isolate'&&oc8.snapshot().subsystem==='optics'));
+await page.locator('#mode-solo').click();await page.locator('#view-front').click();await page.waitForTimeout(1200);
+check('solo optics',await page.evaluate(()=>oc8.snapshot().subsystem==='optics'&&oc8.snapshot().mode==='solo'));
+await page.keyboard.press('h');check('hide panels',await page.locator('.console').evaluate(e=>e.classList.contains('panels-hidden')));await page.keyboard.press('h');
+await page.locator('#reset').click();await page.waitForTimeout(1300);
+const p=await page.locator('canvas').boundingBox();
+await page.mouse.move(p.x+p.width*.55,p.y+p.height*.45);await page.mouse.down();await page.mouse.move(p.x+p.width*.65,p.y+p.height*.5,{steps:8});await page.mouse.up();
+check('drag takes over',await page.evaluate(()=>!oc8.snapshot().auto));
+await page.mouse.wheel(0,150);check('wheel keeps visitor control',await page.evaluate(()=>!oc8.snapshot().auto));
+await page.locator('select[aria-label="渲染质量"]').selectOption('eco');
+check('eco quality',await page.evaluate(()=>oc8.snapshot().quality==='eco'));
+await page.evaluate(()=>oc8.inspect(.25,0));await page.getByRole('button',{name:'播放相位',exact:true}).click();
+const frameTimes=await page.evaluate(()=>new Promise(resolve=>{const values=[];let previous=performance.now();function sample(now){values.push(now-previous);previous=now;if(values.length>=120)resolve(values);else requestAnimationFrame(sample);}requestAnimationFrame(sample);}));
+const sorted=frameTimes.slice(10).sort((a,b)=>a-b);
+const performanceResult={medianMs:sorted[Math.floor(sorted.length*.5)],p95Ms:sorted[Math.floor(sorted.length*.95)],snapshot:await page.evaluate(()=>oc8.snapshot())};
+await page.evaluate(()=>oc8.resume());await page.waitForTimeout(3300);
+check('autopilot buttons activated',await page.evaluate(()=>oc8.snapshot().auto));
+await page.mouse.click(300,112);check('click cancels tour',await page.evaluate(()=>!oc8.snapshot().auto));
+await page.waitForTimeout(25500);check('quiet restores tour after 25 s',await page.evaluate(()=>oc8.snapshot().auto));
+await page.keyboard.press('x');check('key cancels tour',await page.evaluate(()=>!oc8.snapshot().auto));
+await page.setViewportSize({width:390,height:844});await page.waitForTimeout(500);
+check('mobile no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:'artifacts/mobile.png',fullPage:true});
+check('no browser exceptions',errors.length===0);
+await fs.writeFile('artifacts/qa-results.json',JSON.stringify({checks,transitions,performance:performanceResult,errors},null,2));
+console.log(JSON.stringify({passed:checks.length,performance:performanceResult,errors},null,2));await browser.close();

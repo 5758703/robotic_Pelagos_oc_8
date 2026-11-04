@@ -1,0 +1,10 @@
+import {chromium} from 'playwright';import assert from 'node:assert/strict';import fs from 'node:fs/promises';
+const browser=await chromium.launch({channel:'chrome',headless:true});const page=await browser.newPage({viewport:{width:1600,height:900}});
+await page.goto('http://127.0.0.1:5173/');await page.waitForFunction(()=>window.oc8,{timeout:120000});
+await page.evaluate(()=>oc8.resume());await page.locator('[data-tour-toggle]').click();assert.equal(await page.evaluate(()=>oc8.snapshot().auto),false);
+await page.locator('[data-tour-toggle]').click();assert.equal(await page.evaluate(()=>oc8.snapshot().auto),true);
+await page.locator('#sub-optics').click();await page.locator('#mode-solo').click();await page.locator('#sub-all').click();await page.waitForTimeout(100);
+assert.equal(await page.evaluate(()=>oc8.snapshot().mode),'assembled');assert.ok(await page.evaluate(()=>oc8.scene.children.some(g=>g.visible)));
+const rect=await page.locator('canvas').boundingBox();await page.mouse.move(rect.x+rect.width/2,rect.y+rect.height/2);await page.mouse.down();
+await page.waitForTimeout(25500);await page.mouse.move(rect.x+rect.width/2+20,rect.y+rect.height/2+10);assert.equal(await page.evaluate(()=>oc8.snapshot().auto),false);await page.mouse.up();
+const report={takeoverButton:true,resumeButton:true,completeAssemblyAfterSolo:true,continuousDragBeyondIdle:true};await fs.writeFile('artifacts/review-regressions.json',JSON.stringify(report,null,2));console.log(report);await browser.close();

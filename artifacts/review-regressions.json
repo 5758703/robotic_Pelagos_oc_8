@@ -1,0 +1,6 @@
+{
+  "takeoverButton": true,
+  "resumeButton": true,
+  "completeAssemblyAfterSolo": true,
+  "continuousDragBeyondIdle": true
+}

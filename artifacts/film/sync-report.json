@@ -1,0 +1,13 @@
+{
+  "frames": 1200,
+  "fps": 30,
+  "durationSeconds": 40,
+  "buttonClicks": 24,
+  "separationPops": 1,
+  "separationTimes": [
+    12.1
+  ],
+  "newJetPulseOnsets": 26,
+  "startsDuringJetPulse": true,
+  "browserErrors": []
+}

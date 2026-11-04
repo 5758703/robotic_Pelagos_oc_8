@@ -1,0 +1,6 @@
+{
+  "name": "pelagos-oc8", "private": true, "version": "1.0.0", "type": "module",
+  "scripts": {"dev": "vite --host 127.0.0.1", "build": "vite build", "preview": "vite preview --host 127.0.0.1", "test": "node --test tests/*.test.mjs", "qa": "node scripts/browser-qa.mjs", "export:blender": "node scripts/export-scene.mjs"},
+  "dependencies": {"vue": "^3.5.22", "three": "^0.180.0"},
+  "devDependencies": {"vite": "^7.1.7", "@vitejs/plugin-vue": "^6.0.1", "playwright": "^1.56.1"}
+}
