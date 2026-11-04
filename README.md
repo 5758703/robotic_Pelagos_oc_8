@@ -23,12 +23,15 @@ All physical parameters are **design estimates / my guess**; there is no live te
 
 ### Scored film (with audio)
 
-<video src="artifacts/film/Pelagos_OC8_scored.mp4" controls width="860" poster="artifacts/film/frame-0.jpg">
-  Your browser does not support embedded video.
-  <a href="artifacts/film/Pelagos_OC8_scored.mp4">Download Pelagos_OC8_scored.mp4</a>
-</video>
 
-### Video demos
+
+
+https://github.com/user-attachments/assets/d003e6b7-aa6b-45fa-a7c3-4b058130b53b
+
+
+
+
+### Scored film (without audio)
 
 
 
