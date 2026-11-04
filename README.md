@@ -169,11 +169,11 @@ This is an interactive mechanism study, **not** a CFD-, FEA-, or tank-calibrated
 
 ---
 
-## Star history
+
+## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=5758703/robotic_Pelagos_oc_8&type=Date)](https://www.star-history.com/#5758703/robotic_Pelagos_oc_8&Date)
 
-[![Stargazers over time](https://starchart.cc/5758703/robotic_Pelagos_oc_8.svg?variant=adaptive)](https://starchart.cc/5758703/robotic_Pelagos_oc_8)
 
 ---
 
