@@ -28,7 +28,11 @@ All physical parameters are **design estimates / my guess**; there is no live te
   <a href="artifacts/film/Pelagos_OC8_scored.mp4">Download Pelagos_OC8_scored.mp4</a>
 </video>
 
-[▶ Open scored MP4](artifacts/film/Pelagos_OC8_scored.mp4) · [Silent tour MP4](artifacts/film/tour-silent.mp4)
+[▶ Open scored MP4](https://github.com/5758703/robotic_Pelagos_oc_8/artifacts/film/Pelagos_OC8_scored.mp4)
+
+[Silent tour MP4](artifacts/film/tour-silent.mp4)
+
+[▶ Silent tour MP4](https://github.com/5758703/robotic_Pelagos_oc_8/artifacts/film/tour-silent.mp4) 
 
 ### Key frames
 
